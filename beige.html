@@ -159,6 +159,101 @@
     display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;
     opacity: 0; animation: fadeUp 0.7s 1.1s ease forwards;
   }
+   /* ── ANIMATED CHARACTER ── */
+  .hero-character-wrap {
+    flex-shrink: 0;
+    width: 340px; height: 420px;
+    position: relative;
+    opacity: 0; animation: fadeCharacter 1s 1.3s ease forwards;
+  }
+  @keyframes fadeCharacter {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .hero-character-wrap svg { width: 100%; height: 100%; }
+ 
+  /* Character animations */
+  @keyframes floatBody {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes blinkEyes {
+    0%, 90%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.1); }
+  }
+  @keyframes typingHand {
+    0%, 100% { transform: rotate(-5deg) translateY(0); }
+    50% { transform: rotate(5deg) translateY(-4px); }
+  }
+  @keyframes screenGlow {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+  @keyframes codeScroll {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-60px); }
+  }
+  @keyframes cursorBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  @keyframes hairBounce {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(2deg); }
+    70% { transform: rotate(-2deg); }
+  }
+  @keyframes shineRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes orbFloat1 {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(8px,-12px) scale(1.1); }
+    66% { transform: translate(-6px,8px) scale(0.95); }
+  }
+  @keyframes orbFloat2 {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(-10px,10px) scale(1.05); }
+    66% { transform: translate(12px,-6px) scale(0.9); }
+  }
+  @keyframes particleDrift {
+    0% { opacity:0; transform: translate(0,0); }
+    20% { opacity:1; }
+    80% { opacity:0.8; }
+    100% { opacity:0; transform: translate(var(--dx,20px), var(--dy,-40px)); }
+  }
+ 
+  #char-body-group { animation: floatBody 3.5s ease-in-out infinite; transform-origin: center bottom; }
+  #char-eyes { animation: blinkEyes 4s ease-in-out infinite; transform-origin: 50% 50%; }
+  #char-right-arm { animation: typingHand 0.4s ease-in-out infinite; transform-origin: 20px 10px; }
+  #char-screen-glow { animation: screenGlow 2s ease-in-out infinite; }
+  #char-code-lines { animation: codeScroll 3s linear infinite; }
+  #char-cursor { animation: cursorBlink 0.8s step-end infinite; }
+  #char-hair { animation: hairBounce 3.5s ease-in-out infinite; transform-origin: 50% 100%; }
+ 
+  .hero-orb-1 {
+    position: absolute; width: 70px; height: 70px;
+    border-radius: 50%; top: 10%; left: 5%;
+    background: radial-gradient(circle, rgba(184,115,51,0.3), rgba(184,115,51,0.05));
+    animation: orbFloat1 6s ease-in-out infinite;
+    border: 1px solid rgba(184,115,51,0.2);
+  }
+  .hero-orb-2 {
+    position: absolute; width: 45px; height: 45px;
+    border-radius: 50%; bottom: 15%; right: 5%;
+    background: radial-gradient(circle, rgba(212,133,90,0.25), transparent);
+    animation: orbFloat2 8s ease-in-out infinite;
+    border: 1px solid rgba(212,133,90,0.2);
+  }
+  .hero-particle {
+    position: absolute; width: 5px; height: 5px;
+    border-radius: 50%; background: var(--accent);
+    opacity: 0;
+  }
+  .hero-particle:nth-child(1) { bottom: 30%; left: 20%; --dx: 15px; --dy: -50px; animation: particleDrift 3s 0s ease-out infinite; }
+  .hero-particle:nth-child(2) { bottom: 40%; right: 15%; --dx: -20px; --dy: -40px; animation: particleDrift 3s 1s ease-out infinite; }
+  .hero-particle:nth-child(3) { top: 35%; left: 10%; --dx: 10px; --dy: -60px; animation: particleDrift 3s 2s ease-out infinite; }
+ 
   .btn-primary {
     padding: 0.9rem 2.2rem; background: var(--brown-dark); color: var(--cream);
     font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em;
@@ -207,6 +302,7 @@
     animation: lineDown 1.5s 2s ease infinite;
   }
 
+
   /* ── SECTION BASE ── */
   section { padding: 6rem 4rem; }
   .section-header { margin-bottom: 4rem; }
@@ -233,17 +329,17 @@
     position: relative;
   }
   .about-img-frame {
-    width: 100%; aspect-ratio: 3/4; max-width: 340px;
+    width: 100%; aspect-ratio: 3/4 ; max-width: 300px;
     background: linear-gradient(135deg, var(--beige-mid), var(--tan));
-    border-radius: 4px; position: relative; overflow: hidden;
+    border-radius: 8px; position: relative; overflow: hidden;
   }
-  .about-img-frame::before {
-    content: ''; position: absolute; inset: 0;
-    background: repeating-linear-gradient(
-      45deg, transparent, transparent 8px,
-      rgba(255,255,255,0.08) 8px, rgba(255,255,255,0.08) 9px
-    );
-  }
+  .about-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: top center; /* 👈 THIS FIXES FACE CUT */
+  border-radius: 8px;
+}
   .about-img-placeholder {
     position: absolute; inset: 0; display: flex;
     align-items: center; justify-content: center;
@@ -577,7 +673,7 @@
 
 <!-- NAV -->
 <nav id="navbar">
-  <div class="nav-logo">Dev<span>.</span>Portfolio</div>
+  <div class="nav-logo">Manas<span>.</span>Portfolio</div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
@@ -600,16 +696,276 @@
     <p class="hero-title">Full-Stack Developer & Cyber Security Enthusiast</p>
     <p class="hero-desc">I build things for the web — and occasionally for machines to learn from. Passionate about clean code, elegant interfaces, and solving real-world problems with tech.</p>
     <div class="hero-btns">
-      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#projects" class="btn-primary">View My Resume</a>
       <a href="#contact" class="btn-outline">Let's Connect</a>
     </div>
   </div>
+
+    <!-- Right: Animated Character -->
+    <div class="hero-character-wrap">
+      <div class="hero-orb-1"></div>
+      <div class="hero-orb-2"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+      <div class="hero-particle"></div>
+ 
+      <!-- SVG Animated Developer Character -->
+      <svg viewBox="0 0 340 420" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <defs>
+          <radialGradient id="bgGlow" cx="50%" cy="60%" r="50%">
+            <stop offset="0%" stop-color="rgba(184,115,51,0.15)"/>
+            <stop offset="100%" stop-color="rgba(184,115,51,0)"/>
+          </radialGradient>
+          <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#F5C5A3"/>
+            <stop offset="100%" stop-color="#E8A87C"/>
+          </linearGradient>
+          <linearGradient id="shirtGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#4e3520"/>
+            <stop offset="100%" stop-color="#7a5c38"/>
+          </linearGradient>
+          <linearGradient id="laptopGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2c1a0e"/>
+            <stop offset="100%" stop-color="#4e3520"/>
+          </linearGradient>
+          <linearGradient id="screenGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0a1628"/>
+            <stop offset="100%" stop-color="#0f2040"/>
+          </linearGradient>
+          <clipPath id="screenClip">
+            <rect x="108" y="265" width="124" height="74" rx="3"/>
+          </clipPath>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+ 
+        <!-- Background glow -->
+        <ellipse cx="170" cy="360" rx="120" ry="30" fill="rgba(184,115,51,0.12)"/>
+        <circle cx="170" cy="230" r="130" fill="url(#bgGlow)"/>
+ 
+        <!-- Floating decorative elements -->
+        <g opacity="0.5">
+          <circle cx="50" cy="120" r="4" fill="#b87333" opacity="0.6">
+            <animate attributeName="cy" values="120;108;120" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="290" cy="160" r="3" fill="#d4855a" opacity="0.5">
+            <animate attributeName="cy" values="160;150;160" dur="4s" repeatCount="indefinite"/>
+          </circle>
+          <rect x="40" y="200" width="12" height="12" rx="2" fill="#b87333" opacity="0.3" transform="rotate(30 46 206)">
+            <animateTransform attributeName="transform" type="rotate" values="30 46 206;50 46 206;30 46 206" dur="5s" repeatCount="indefinite"/>
+          </rect>
+          <polygon points="295,90 303,106 287,106" fill="#b87333" opacity="0.25">
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-8;0,0" dur="4s" repeatCount="indefinite"/>
+          </polygon>
+          <!-- Code brackets floating -->
+          <text x="30" y="290" font-family="monospace" font-size="14" fill="#b87333" opacity="0.4">
+            &lt;/&gt;
+            <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite"/>
+          </text>
+          <text x="290" y="240" font-family="monospace" font-size="12" fill="#7a5c38" opacity="0.4">{}</text>
+        </g>
+ 
+        <!-- Main character group (floats up/down) -->
+        <g id="char-body-group">
+ 
+          <!-- Chair shadow -->
+          <ellipse cx="170" cy="400" rx="80" ry="12" fill="rgba(46,26,14,0.15)"/>
+ 
+          <!-- Chair -->
+          <rect x="100" y="350" width="140" height="8" rx="4" fill="#4e3520" opacity="0.7"/>
+          <rect x="115" y="358" width="12" height="35" rx="3" fill="#4e3520" opacity="0.6"/>
+          <rect x="213" y="358" width="12" height="35" rx="3" fill="#4e3520" opacity="0.6"/>
+          <rect x="92" y="348" width="20" height="40" rx="3" fill="#2c1a0e" opacity="0.5"/><!-- backrest left -->
+          <rect x="228" y="348" width="20" height="40" rx="3" fill="#2c1a0e" opacity="0.5"/><!-- backrest right -->
+          <rect x="92" y="345" width="156" height="8" rx="4" fill="#2c1a0e" opacity="0.6"/><!-- backrest top -->
+ 
+          <!-- Body / Torso (shirt) -->
+          <rect x="118" y="295" width="104" height="62" rx="14" fill="url(#shirtGrad)"/>
+          <!-- Shirt collar detail -->
+          <path d="M155 295 L170 315 L185 295" stroke="#b87333" stroke-width="1.5" fill="none" opacity="0.6"/>
+          <!-- Shirt pocket -->
+          <rect x="125" y="308" width="22" height="16" rx="2" fill="rgba(255,255,255,0.08)" stroke="rgba(184,115,51,0.3)" stroke-width="1"/>
+          <line x1="130" y1="312" x2="142" y2="312" stroke="#b87333" stroke-width="1" opacity="0.5"/>
+          <line x1="130" y1="316" x2="138" y2="316" stroke="#b87333" stroke-width="1" opacity="0.4"/>
+ 
+          <!-- Neck -->
+          <rect x="158" y="270" width="24" height="28" rx="8" fill="url(#skinGrad)"/>
+ 
+          <!-- Head -->
+          <ellipse cx="170" cy="240" rx="52" ry="56" fill="url(#skinGrad)"/>
+ 
+          <!-- Hair -->
+          <g id="char-hair">
+            <!-- Main hair -->
+            <path d="M118 220 Q118 165 170 162 Q222 165 222 220 Q215 195 210 185 Q190 170 170 168 Q150 170 130 185 Q125 195 118 220Z" fill="#1a0a00"/>
+            <!-- Hair top sweep -->
+            <path d="M145 168 Q160 155 180 160 Q195 158 208 168 Q195 158 170 156 Q148 158 145 168Z" fill="#2c1a0e"/>
+            <!-- Side burns -->
+            <rect x="118" y="215" width="8" height="22" rx="4" fill="#1a0a00"/>
+            <rect x="214" y="215" width="8" height="22" rx="4" fill="#1a0a00"/>
+          </g>
+ 
+          <!-- Ears -->
+          <ellipse cx="118" cy="242" rx="9" ry="12" fill="url(#skinGrad)"/>
+          <ellipse cx="222" cy="242" rx="9" ry="12" fill="url(#skinGrad)"/>
+          <ellipse cx="118" cy="242" rx="5" ry="8" fill="#E8A87C"/>
+          <ellipse cx="222" cy="242" rx="5" ry="8" fill="#E8A87C"/>
+ 
+          <!-- Eyebrows -->
+          <path d="M143 218 Q152 213 160 216" stroke="#1a0a00" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M180 216 Q188 213 197 218" stroke="#1a0a00" stroke-width="2.5" stroke-linecap="round"/>
+ 
+          <!-- Eyes group (blinks) -->
+          <g id="char-eyes">
+            <!-- Left eye white -->
+            <ellipse cx="152" cy="232" rx="11" ry="11" fill="white"/>
+            <!-- Right eye white -->
+            <ellipse cx="188" cy="232" rx="11" ry="11" fill="white"/>
+            <!-- Left iris -->
+            <circle cx="154" cy="233" r="7" fill="#4a2c10"/>
+            <!-- Right iris -->
+            <circle cx="190" cy="233" r="7" fill="#4a2c10"/>
+            <!-- Left pupil -->
+            <circle cx="155" cy="234" r="4" fill="#0a0a0a"/>
+            <!-- Right pupil -->
+            <circle cx="191" cy="234" r="4" fill="#0a0a0a"/>
+            <!-- Shine -->
+            <circle cx="157" cy="231" r="2" fill="white" opacity="0.9"/>
+            <circle cx="193" cy="231" r="2" fill="white" opacity="0.9"/>
+            <!-- Eyelashes top -->
+            <path d="M141 226 Q152 221 163 226" stroke="#1a0a00" stroke-width="1.5" fill="none"/>
+            <path d="M177 226 Q188 221 199 226" stroke="#1a0a00" stroke-width="1.5" fill="none"/>
+          </g>
+ 
+          <!-- Nose -->
+          <path d="M168 240 Q165 252 162 255 Q166 258 170 257 Q174 258 178 255 Q175 252 172 240Z" fill="#E8A87C" opacity="0.7"/>
+ 
+          <!-- Smile -->
+          <path d="M156 266 Q163 274 170 275 Q177 274 184 266" stroke="#c47a50" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Teeth hint -->
+          <path d="M159 267 Q170 273 181 267" stroke="white" stroke-width="1" fill="none" opacity="0.4"/>
+ 
+          <!-- Glasses -->
+          <circle cx="152" cy="232" r="14" stroke="#b87333" stroke-width="2" fill="none" opacity="0.7"/>
+          <circle cx="188" cy="232" r="14" stroke="#b87333" stroke-width="2" fill="none" opacity="0.7"/>
+          <line x1="166" y1="232" x2="174" y2="232" stroke="#b87333" stroke-width="2"/>
+          <line x1="138" y1="230" x2="120" y2="235" stroke="#b87333" stroke-width="2"/>
+          <line x1="202" y1="230" x2="220" y2="235" stroke="#b87333" stroke-width="2"/>
+ 
+          <!-- LEFT ARM (resting) -->
+          <path d="M118 305 Q100 320 95 345 Q92 350 98 352 Q110 350 115 340 Q118 330 122 315Z" fill="url(#skinGrad)"/>
+ 
+          <!-- RIGHT ARM (typing) -->
+          <g id="char-right-arm">
+            <path d="M222 305 Q240 320 245 345 Q248 350 242 352 Q230 350 225 340 Q222 330 218 315Z" fill="url(#skinGrad)"/>
+          </g>
+ 
+          <!-- Laptop base -->
+          <rect x="80" y="345" width="180" height="14" rx="5" fill="url(#laptopGrad)"/>
+          <!-- Laptop trackpad -->
+          <rect x="148" y="349" width="44" height="7" rx="2" fill="rgba(255,255,255,0.06)"/>
+ 
+          <!-- Laptop screen -->
+          <rect x="100" y="255" width="140" height="90" rx="6" fill="url(#laptopGrad)"/>
+          <!-- Screen bezel -->
+          <rect x="106" y="261" width="128" height="80" rx="4" fill="#0a1628"/>
+          <!-- Screen display area -->
+          <rect x="108" y="263" width="124" height="76" rx="3" fill="url(#screenGrad)" id="char-screen-glow"/>
+ 
+          <!-- Code on screen (scrolls) -->
+          <g clip-path="url(#screenClip)">
+            <g id="char-code-lines">
+              <!-- Line 1 -->
+              <text x="112" y="278" font-family="monospace" font-size="7" fill="#b87333">const</text>
+              <text x="134" y="278" font-family="monospace" font-size="7" fill="#64b5f6"> manas</text>
+              <text x="157" y="278" font-family="monospace" font-size="7" fill="#ffffff"> = {</text>
+              <!-- Line 2 -->
+              <text x="118" y="288" font-family="monospace" font-size="7" fill="#a5d6a7">  role:</text>
+              <text x="140" y="288" font-family="monospace" font-size="7" fill="#f48fb1"> "dev"</text>
+              <!-- Line 3 -->
+              <text x="118" y="298" font-family="monospace" font-size="7" fill="#a5d6a7">  passion:</text>
+              <text x="150" y="298" font-family="monospace" font-size="7" fill="#f48fb1"> "AI"</text>
+              <!-- Line 4 -->
+              <text x="118" y="308" font-family="monospace" font-size="7" fill="#a5d6a7">  cgpa:</text>
+              <text x="140" y="308" font-family="monospace" font-size="7" fill="#ffcc80"> 8.1</text>
+              <!-- Line 5 -->
+              <text x="112" y="318" font-family="monospace" font-size="7" fill="#ffffff">}</text>
+              <!-- Line 6 -->
+              <text x="112" y="328" font-family="monospace" font-size="7" fill="#b87333">function</text>
+              <text x="148" y="328" font-family="monospace" font-size="7" fill="#64b5f6"> build()</text>
+              <!-- Line 7 -->
+              <text x="112" y="338" font-family="monospace" font-size="7" fill="#ffffff">  return</text>
+              <text x="140" y="338" font-family="monospace" font-size="7" fill="#a5d6a7"> 🚀</text>
+              <!-- Line 8 repeated for seamless scroll -->
+              <text x="112" y="348" font-family="monospace" font-size="7" fill="#b87333">const</text>
+              <text x="134" y="348" font-family="monospace" font-size="7" fill="#64b5f6"> manas</text>
+              <text x="157" y="348" font-family="monospace" font-size="7" fill="#ffffff"> = {</text>
+              <text x="118" y="358" font-family="monospace" font-size="7" fill="#a5d6a7">  role:</text>
+              <text x="140" y="358" font-family="monospace" font-size="7" fill="#f48fb1"> "dev"</text>
+            </g>
+            <!-- Cursor -->
+            <rect id="char-cursor" x="112" y="270" width="5" height="9" fill="#b87333" rx="1"/>
+          </g>
+ 
+          <!-- Screen glare -->
+          <path d="M108 263 L180 263 L160 275 L108 275Z" fill="white" opacity="0.04"/>
+ 
+          <!-- Webcam dot -->
+          <circle cx="170" cy="262" r="2" fill="#333"/>
+          <circle cx="170" cy="262" r="1" fill="#64b5f6" opacity="0.5"/>
+ 
+          <!-- Headphones -->
+          <path d="M118 220 Q118 195 170 195 Q222 195 222 220" stroke="#2c1a0e" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <rect x="113" y="216" width="10" height="18" rx="5" fill="#2c1a0e"/>
+          <rect x="217" y="216" width="10" height="18" rx="5" fill="#2c1a0e"/>
+          <!-- Headphone accents -->
+          <rect x="115" y="218" width="6" height="14" rx="3" fill="#b87333" opacity="0.7"/>
+          <rect x="219" y="218" width="6" height="14" rx="3" fill="#b87333" opacity="0.7"/>
+ 
+          <!-- Coffee mug (on desk, side) -->
+          <g transform="translate(52, 330)">
+            <rect x="0" y="0" width="28" height="28" rx="3" fill="#7a5c38"/>
+            <rect x="2" y="2" width="24" height="24" rx="2" fill="#4e3520"/>
+            <!-- Steam -->
+            <path d="M8 -4 Q10 -10 8 -16" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round">
+              <animate attributeName="d" values="M8 -4 Q10 -10 8 -16;M8 -4 Q12 -10 10 -16;M8 -4 Q10 -10 8 -16" dur="2s" repeatCount="indefinite"/>
+            </path>
+            <path d="M14 -2 Q16 -8 14 -14" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round">
+              <animate attributeName="d" values="M14 -2 Q16 -8 14 -14;M14 -2 Q18 -8 16 -14;M14 -2 Q16 -8 14 -14" dur="2.5s" repeatCount="indefinite"/>
+            </path>
+            <!-- Mug handle -->
+            <path d="M28 8 Q36 8 36 14 Q36 20 28 20" stroke="#a07850" stroke-width="2.5" fill="none"/>
+            <!-- Coffee liquid -->
+            <ellipse cx="14" cy="6" rx="10" ry="3" fill="#2c1a0e"/>
+            <!-- Logo on mug -->
+            <text x="6" y="20" font-family="monospace" font-size="8" fill="#b87333">&lt;/&gt;</text>
+          </g>
+ 
+        </g><!-- end char-body-group -->
+ 
+        <!-- "HIRE ME" badge floating -->
+        <g transform="translate(240, 90)">
+          <circle r="32" fill="#b87333" filter="url(#glow)">
+            <animate attributeName="r" values="32;34;32" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <text x="-18" y="-4" font-family="'DM Sans',sans-serif" font-size="8" font-weight="700" fill="white" letter-spacing="0.5">HIRE</text>
+          <text x="-14" y="8" font-family="'DM Sans',sans-serif" font-size="8" font-weight="700" fill="white" letter-spacing="0.5">ME!</text>
+          <animateTransform attributeName="transform" type="rotate" values="0 240 90;10 240 90;-8 240 90;0 240 90" dur="3s" repeatCount="indefinite" additive="sum"/>
+        </g>
+ 
+      </svg>
+    </div><!-- end hero-character-wrap -->
+  </div><!-- end hero-inner -->
+   
+ 
   <div class="hero-floats">
     <div class="hero-stat"><div class="num">6+</div><div class="lbl">Projects</div></div>
     <div class="hero-stat"><div class="num">8.1</div><div class="lbl">CGPA</div></div>
     <div class="hero-stat"><div class="num">10+</div><div class="lbl">Certs</div></div>
   </div>
-  <div class="scroll-hint">Scroll to explore</div>
 </section>
 
 <!-- ABOUT -->
@@ -622,7 +978,7 @@
     <div class="about-img-wrap">
       <div class="about-corner"></div>
       <div class="about-img-frame">
-        <div class="about-img-placeholder"></div>
+        <div class="about-img-placeholder"><img src="/assests/WhatsApp Image 2026-03-24 at 00.08.39.jpeg"></div>
       </div>
       <div class="about-img-badge">3rd<small>Year BTech</small></div>
     </div>
@@ -722,12 +1078,12 @@
       </div>
       <div class="exp-body">
         <div class="exp-role">Marketing Growth Intern</div>
-        <div class="exp-desc"> Focused on expanding outreach and improving client acquisition strategies through data-driven approaches. 
-      Implemented AI-powered prompt techniques to design sales messages and automate initial customer interactions. Researched target audiences, identified growth opportunities, and supported the team in optimizing engagement workflows.
-    </div></div>
+        <div class="exp-desc"> Drove outreach and client acquisition using data-driven strategies; leveraged AI prompts to craft sales messaging, automate interactions, and optimize audience targeting and engagement.</div>
         <div class="exp-tags">
           <span class="exp-tag">NLP</span><span class="exp-tag">PyTorch</span>
           <span class="exp-tag">HuggingFace</span><span class="exp-tag">Python</span>
+          <span class="exp-tag">Communication</span>
+          </div>
         </div>
       </div>
     </div>
@@ -758,77 +1114,76 @@
   <div class="timeline-wrap">
     <div class="timeline-spine"></div>
 
-    <div class="timeline-item">
+        <div class="timeline-item">
       <div class="project-card">
         <div class="project-num">Project — 01</div>
-        <div class="project-name">AI-Powered Resume Screener</div>
-        <div class="project-desc">An end-to-end NLP pipeline that parses, scores, and ranks resumes against job descriptions using fine-tuned BERT models. Deployed as a REST API with a React frontend.</div>
-        <div class="project-tech"><span class="tech-tag">Python</span><span class="tech-tag">BERT</span><span class="tech-tag">FastAPI</span><span class="tech-tag">React</span><span class="tech-tag">Docker</span></div>
-        <div class="project-links"><a class="project-link" href="#">⬡ GitHub</a><a class="project-link" href="#">⬡ Live Demo</a></div>
-      </div>
-      <div class="timeline-spacer">
-        <div class="timeline-year-label">2024</div>
-        <div class="timeline-dot"></div>
-      </div>
-      <div class="timeline-empty"></div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-empty"></div>
-      <div class="timeline-spacer">
-        <div class="timeline-dot"></div>
-      </div>
-      <div class="project-card">
-        <div class="project-num">Project — 02</div>
-        <div class="project-name">DevCollab — Real-time Code Editor</div>
-        <div class="project-desc">A collaborative code editor supporting real-time multi-user sessions with syntax highlighting for 20+ languages, chat, and version history. Built with WebSockets and operational transforms.</div>
-        <div class="project-tech"><span class="tech-tag">React</span><span class="tech-tag">Node.js</span><span class="tech-tag">Socket.io</span><span class="tech-tag">Monaco</span><span class="tech-tag">Redis</span></div>
-        <div class="project-links"><a class="project-link" href="#">⬡ GitHub</a><a class="project-link" href="#">⬡ Live Demo</a></div>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="project-card">
-        <div class="project-num">Project — 03</div>
-        <div class="project-name">CropShield — Crop Disease Detector</div>
-        <div class="project-desc">A mobile-first web app that detects plant diseases from leaf images using a CNN model trained on 87,000+ images. Achieved 93.4% accuracy. Won 2nd place at a national hackathon.</div>
-        <div class="project-tech"><span class="tech-tag">TensorFlow</span><span class="tech-tag">Flask</span><span class="tech-tag">React</span><span class="tech-tag">OpenCV</span><span class="tech-tag">AWS S3</span></div>
+        <div class="project-name">EVI SCAN – AI-Based UFDR Forensic Analysis Tool</div>
+        <div class="project-desc">An AI-powered forensic analysis tool that processes UFDR (Universal Forensic Extraction Device Report) data to assist investigators. It automates parsing of chats, calls, media, and metadata, enabling natural language queries, pattern detection, and evidence correlation. The system generates structured investigation reports, significantly reducing analysis time and improving accuracy in digital crime investigations.
+</div>
+        <div class="project-tech"><span class="tech-tag">Python</span><span class="tech-tag">Flask</span><span class="tech-tag">NLP</span><span class="tech-tag">AI/ML</span><span class="tech-tag">Database</span></div>
         <div class="project-links"><a class="project-link" href="#">⬡ GitHub</a><a class="project-link" href="#">⬡ Paper</a></div>
       </div>
       <div class="timeline-spacer">
-        <div class="timeline-year-label">2023</div>
+        <div class="timeline-year-label">2026</div>
         <div class="timeline-dot"></div>
       </div>
       <div class="timeline-empty"></div>
     </div>
 
     <div class="timeline-item">
-      <div class="timeline-empty"></div>
-      <div class="timeline-spacer">
-        <div class="timeline-dot"></div>
-      </div>
       <div class="project-card">
-        <div class="project-num">Project — 04</div>
-        <div class="project-name">FinTrack — Personal Finance Dashboard</div>
-        <div class="project-desc">A full-stack expense tracker with smart categorization, trend analysis charts, and budget alerts. Supports CSV import/export and OAuth login.</div>
-        <div class="project-tech"><span class="tech-tag">Next.js</span><span class="tech-tag">Prisma</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Recharts</span></div>
+        <div class="project-num">Project — 02</div>
+        <div class="project-name">AI-Powered Telemedicine Platform (Health Medicine Kios)</div>
+        <div class="project-desc">An AI-powered telemedicine platform designed for rural healthcare, enabling video consultations, digital health records, and real-time medicine tracking. The system integrates AI-based symptom checking, multilingual support, and offline accessibility to provide affordable, scalable, and continuous healthcare services.</div>
+        <div class="project-tech"><span class="tech-tag">AI</span><span class="tech-tag">Cloud Computing</span><span class="tech-tag">Node.js</span><span class="tech-tag">Express.js</span><span class="tech-tag">Flutter</span>  <span class="tech-tag">OpenCV</span>
+  <span class="tech-tag">TensorFlow</span></div>
         <div class="project-links"><a class="project-link" href="#">⬡ GitHub</a><a class="project-link" href="#">⬡ Live Demo</a></div>
       </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="project-card">
-        <div class="project-num">Project — 05</div>
-        <div class="project-name">ByteChat — Terminal Chat App</div>
-        <div class="project-desc">A lightweight, terminal-based encrypted chat application using socket programming in C++. Supports group rooms, private DMs, and AES message encryption.</div>
-        <div class="project-tech"><span class="tech-tag">C++</span><span class="tech-tag">Sockets</span><span class="tech-tag">OpenSSL</span><span class="tech-tag">ncurses</span></div>
-        <div class="project-links"><a class="project-link" href="#">⬡ GitHub</a></div>
-      </div>
       <div class="timeline-spacer">
+        <div class="timeline-year-label">2025</div>
         <div class="timeline-dot"></div>
       </div>
       <div class="timeline-empty"></div>
     </div>
+
+    <div class="timeline-item">
+      <div class="timeline-empty"></div>
+      <div class="timeline-spacer">
+        <div class="timeline-dot"></div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">Project — 03</div>
+        <div class="project-name">AI-Based Secure Voting System with Blockchain</div>
+        <div class="project-desc">An AI-powered voting platform designed to ensure secure, transparent, and accessible elections. It integrates biometric authentication, blockchain-based vote storage, and AI-driven fraud detection to prevent duplicate voting and impersonation. The system supports online voting for seniors and disabled users with geo-fencing and multi-factor authentication for enhanced security and inclusivity.
+</div>
+        <div class="project-tech"><span class="tech-tag">React</span><span class="tech-tag">Node.js</span><span class="tech-tag">MySQL</span><span class="tech-tag">AI</span><span class="tech-tag">APIs</span></div>
+        <div class="project-links"><a class="project-link" href="#">⬡ GitHub</a><a class="project-link" href="https://youtu.be/byXKtFlgd24?si=qvp0Wmj-nTLUFGJS">⬡ Live Demo</a></div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-empty"></div>
+      <div class="timeline-spacer">
+        <div class="timeline-dot"></div>
+      </div>
+<div class="project-card">
+  <div class="project-num">Project — 04</div>
+  <div class="project-name">ASHA – Maternal Healthcare Support App</div>
+  <div class="project-desc">
+    A mobile-based healthcare solution designed to assist ASHA workers in rural areas in supporting women during pregnancy and postnatal care. The platform enables digital medical record management, health tracking, and timely guidance to ensure better maternal and infant health outcomes. It simplifies data handling, improves accessibility, and enhances continuity of care through structured workflows.
+  </div>
+  <div class="project-tech">
+    <span class="tech-tag">Flutter</span>
+    <span class="tech-tag">Firebase</span>
+    <span class="tech-tag">Node.js</span>
+    <span class="tech-tag">MongoDB</span>
+    <span class="tech-tag">APIs</span>
+  </div>
+  <div class="project-links">
+    <a class="project-link" href="#">⬡ GitHub</a>
+    <a class="project-link" href="#">⬡ Live Demo</a>
+  </div>
+</div>
 
   </div>
 </section>
@@ -842,40 +1197,35 @@
   <div class="ach-grid">
     <div class="ach-card">
       <div class="ach-icon">🏆</div>
-      <div class="ach-title">National Hackathon — 2nd Place</div>
-      <div class="ach-org">Smart India Hackathon 2024</div>
-      <div class="ach-desc">Built CropShield, a crop disease detection system. Competed against 200+ teams from across the country.</div>
-    </div>
+      <div class="ach-title">SIH Finalist 2025</div>
+      <div class="ach-org">Smart India Hackathon 2025</div>
+      <div class="ach-desc">Built AI-powered forensic tool that analyzes UFDR data, automates evidence extraction and pattern detection, and generates accurate investigation reports with natural language queries
+</div>    </div>
     <div class="ach-card">
-      <div class="ach-icon">⭐</div>
-      <div class="ach-title">Merit Scholarship</div>
-      <div class="ach-org">University Academic Excellence</div>
-      <div class="ach-desc">Awarded merit scholarship for 3 consecutive semesters for maintaining a CGPA above 9.0.</div>
-    </div>
+      <div class="ach-icon"><img src="/assests/search.png" alt="GitHub" width="30"></div>
+      <div class="ach-title">Google Arcade Champion</div>
+<div class="ach-org">Google Cloud Skills Boost</div>
+<div class="ach-desc">Successfully completed Google Arcade challenges by building cloud-based projects and earning skill badges in Google Cloud technologies.</div>
+</div>
     <div class="ach-card">
       <div class="ach-icon">📄</div>
       <div class="ach-title">Research Paper — Under Review</div>
       <div class="ach-org">IEEE Conference 2025</div>
       <div class="ach-desc">Co-authored a paper on multilingual sentiment analysis using transfer learning, submitted to IEEE ICISC.</div>
     </div>
-    <div class="ach-card">
-      <div class="ach-icon">🎯</div>
-      <div class="ach-title">LeetCode — 500+ Problems</div>
-      <div class="ach-org">Competitive Programming</div>
-      <div class="ach-desc">Solved 500+ problems on LeetCode with a max contest rating of 1847. Top 10% globally.</div>
-    </div>
+  
     <div class="ach-card">
       <div class="ach-icon">🚀</div>
-      <div class="ach-title">Google Summer of Code</div>
-      <div class="ach-org">GSoC 2024 — Contributor</div>
-      <div class="ach-desc">Selected as a GSoC contributor. Worked on improving documentation and tooling for an open-source ML library.</div>
-    </div>
+      <div class="ach-title">3rd Place – Avishkar 3.0 Ideathon</div>
+<div class="ach-org">ABES Institute of Technology</div>
+<div class="ach-desc">Ranked 3rd out of 90+ teams by presenting an innovative Brain-Computer Interface solution with real-world applications.</div>
+</div>
     <div class="ach-card">
-      <div class="ach-icon">🧠</div>
-      <div class="ach-title">Dept. Technical Fest Winner</div>
-      <div class="ach-org">TechFest — CodeWars 2023</div>
-      <div class="ach-desc">Won the department-level competitive programming contest, finishing 1st out of 150 participants.</div>
-    </div>
+      <div class="ach-icon">⭐</div>
+      <div class="ach-title">Nukkad Natak Performer</div>
+<div class="ach-org">College Cultural Event</div>
+<div class="ach-desc">Winner of many street play addressing social issues, showcasing strong communication, teamwork, and public engagement skills.</div>
+</div>
   </div>
 </section>
 
@@ -887,57 +1237,39 @@
   </div>
   <div class="cert-grid">
     <div class="cert-card">
-      <div class="cert-logo">☁️</div>
+      <div class="cert-logo"><img src="/assests/search.png" alt="GitHub" width="30"></div>
       <div class="cert-info">
-        <div class="cert-name">AWS Cloud Practitioner</div>
-        <div class="cert-issuer">Amazon Web Services</div>
-        <div class="cert-date">Issued: October 2024 · Expires: 2027</div>
-        <a href="#" class="cert-verify">↗ Verify credential</a>
+        <div class="cert-name">Google Cloud Arcade</div>
+        <div class="cert-issuer">Google</div>
+        <div class="cert-date">Issued: 4th June 2025</div>
+        <a href="/assests/1762873569495.pdf" class="cert-verify">↗ Verify credential</a>
       </div>
     </div>
     <div class="cert-card">
       <div class="cert-logo">🧠</div>
       <div class="cert-info">
-        <div class="cert-name">Deep Learning Specialization</div>
-        <div class="cert-issuer">Coursera — Andrew Ng</div>
-        <div class="cert-date">Issued: August 2024</div>
-        <a href="#" class="cert-verify">↗ Verify credential</a>
+        <div class="cert-name">SIH Finalist</div>
+        <div class="cert-issuer">Smart India Hackathon</div>
+        <div class="cert-date">Issued: December 2025</div>
+        <a href="/assests/DocScanner 9 Dec 2025 19-14.pdf" class="cert-verify">↗ Verify credential</a>
       </div>
     </div>
     <div class="cert-card">
       <div class="cert-logo">⚛️</div>
       <div class="cert-info">
-        <div class="cert-name">Meta React Developer</div>
-        <div class="cert-issuer">Meta via Coursera</div>
-        <div class="cert-date">Issued: May 2024</div>
-        <a href="#" class="cert-verify">↗ Verify credential</a>
+        <div class="cert-name">India Innovates Hackathon</div>
+        <div class="cert-issuer">India Innovate </div>
+        <div class="cert-date">Issued: March 2026</div>
+        <a href="/assests/WhatsApp Image 2026-03-31 at 15.17.50.jpeg" class="cert-verify">↗ Verify credential</a>
       </div>
     </div>
     <div class="cert-card">
-      <div class="cert-logo">🐍</div>
+      <div class="cert-logo">⚛️</div>
       <div class="cert-info">
-        <div class="cert-name">Python for Data Science</div>
-        <div class="cert-issuer">IBM via Coursera</div>
-        <div class="cert-date">Issued: March 2023</div>
-        <a href="#" class="cert-verify">↗ Verify credential</a>
-      </div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-logo">🔒</div>
-      <div class="cert-info">
-        <div class="cert-name">Google Cybersecurity Certificate</div>
-        <div class="cert-issuer">Google via Coursera</div>
-        <div class="cert-date">Issued: July 2024</div>
-        <a href="#" class="cert-verify">↗ Verify credential</a>
-      </div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-logo">📊</div>
-      <div class="cert-info">
-        <div class="cert-name">TensorFlow Developer</div>
-        <div class="cert-issuer">Google</div>
-        <div class="cert-date">Issued: September 2024</div>
-        <a href="#" class="cert-verify">↗ Verify credential</a>
+        <div class="cert-name">Microsoft Azure AI Fundamentals</div>
+        <div class="cert-issuer">Microsoft Learn Student Ambassador </div>
+        <div class="cert-date">Issued: March 2025</div>
+        <a href="/assests/1735967890092.pdf" class="cert-verify">↗ Verify credential</a>
       </div>
     </div>
   </div>
@@ -952,26 +1284,27 @@
       <p>I'm currently open to internship opportunities, research collaborations, and interesting project discussions. Drop me a message — I respond within 24 hours.</p>
       <div class="contact-methods">
         <a href="mailto:anandmanas67@gmail.com" class="contact-method">
-          <div class="cm-icon">✉</div>
+          <div class="cm-icon"><img src="/assests/gmail.png" alt="LinkedIn" width="30"></div>
           <div><div class="cm-label">Email</div><div class="cm-value">anandmanas67@gmail.com</div></div>
         </a>
         <a href="www.linkedin.com/in/manas-anand-066ba52b9" class="contact-method">
-          <div class="cm-icon">in</div>
+          <div class="cm-icon"><img src="/assests/linkedin.png" alt="LinkedIn" width="30"></div>
           <div><div class="cm-label">LinkedIn</div><div class="cm-value">/in/manas-anand-066ba52b9</div></div>
         </a>
         <a href="https://github.com/Bhalaa-Manas" class="contact-method">
-          <div class="cm-icon">⌥</div>
+          <div class="cm-icon"><img src="/assests/github (2).png" alt="GitHub" width="30"></div>
           <div><div class="cm-label">GitHub</div><div class="cm-value">github.com/Bhalaa-Manas</div></div>
         </a>
       </div>
     </div>
     <div>
-      <form class="contact-form" onsubmit="return false;">
-        <div class="form-group"><label>Name</label><input type="text" placeholder="Your full name"></div>
-        <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com"></div>
-        <div class="form-group"><label>Subject</label><input type="text" placeholder="What's this about?"></div>
-        <div class="form-group"><label>Message</label><textarea placeholder="Tell me about the opportunity or project..."></textarea></div>
-        <button class="btn-send">Send Message →</button>
+      <form id="contactForm" class="contact-form">
+        <div class="form-group"><label>Name</label><input id="from_name" type="text" placeholder="Your full name" required></div>
+        <div class="form-group"><label>Email</label><input id="from_email" type="email" placeholder="your@email.com" required></div>
+        <div class="form-group"><label>Subject</label><input id="subject" type="text" placeholder="What's this about?"></div>
+        <div class="form-group"><label>Message</label><textarea id="message" placeholder="Tell me about the opportunity or project..." required></textarea></div>
+        <button id="sendBtn" class="btn-send">Send Message →</button>
+        <p id="formStatus" class="form-status"></p>
       </form>
     </div>
   </div>
@@ -982,8 +1315,8 @@
   <div class="f-logo">Manas<span>.</span>Portfolio</div>
   <p>© 2026 · Built with craft &amp; coffee ☕</p>
   <div class="f-social">
-    <a href="https://github.com/Bhalaa-Manas">GH</a>
-    <a href="www.linkedin.com/in/manas-anand-066ba52b9">LI</a>
+    <a href="https://github.com/Bhalaa-Manas"> <img src="/assests/github (2).png" alt="GitHub" width="30"></a>
+    <a href="www.linkedin.com/in/manas-anand-066ba52b9"><img src="/assests/linkedin.png" alt="LinkedIn" width="30"></a>
     <a href="#">TW</a>
   </div>
 </footer>
@@ -1030,6 +1363,53 @@
   window.addEventListener('scroll', () => {
     const nav = document.getElementById('navbar');
     nav.style.boxShadow = window.scrollY > 30 ? '0 4px 30px rgba(44,26,14,0.1)' : '';
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  const EJ_KEY = 'VRw2IdJH4QMcbqAsU';
+  const EJ_SVC = 'service_afa6nbh';
+  const EJ_TPL = 'template_iv4v3ru';
+
+  emailjs.init(EJ_KEY);
+
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const btn = document.getElementById('sendBtn');
+    const status = document.getElementById('formStatus');
+    status.className = 'form-status';
+    status.textContent = '';
+
+    if (EJ_KEY === 'YOUR_PUBLIC_KEY') {
+      status.className = 'form-status error';
+      status.textContent = '⚠ Configure EmailJS keys to activate sending.';
+      btn.disabled = false;
+      btn.textContent = 'Send Message →';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      await emailjs.send(EJ_SVC, EJ_TPL, {
+        from_name: document.getElementById('from_name').value,
+        from_email: document.getElementById('from_email').value,
+        subject: document.getElementById('subject').value || '(No subject)',
+        message: document.getElementById('message').value
+      });
+      status.className = 'form-status success';
+      status.textContent = '✓ Message sent! I\'ll reply within 24 hours.';
+      this.reset();
+    } catch (err) {
+      status.className = 'form-status error';
+      status.textContent = '✗ Send failed. Email me: bhalaamanas@gmail.com';
+      console.error('EmailJS error', err);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send Message →';
+    }
   });
 </script>
 </body>
